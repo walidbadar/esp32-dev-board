@@ -1,0 +1,22 @@
+identifier: esp32_dev
+name: ESP32-Dev
+type: mcu
+arch: xtensa
+toolchain:
+  - zephyr
+supported:
+  - adc
+  - dac
+  - gpio
+  - i2c
+  - i2s
+  - watchdog
+  - uart
+  - nvs
+  - pwm
+  - dac
+  - spi
+  - counter
+  - entropy
+  - input
+vendor: espressif

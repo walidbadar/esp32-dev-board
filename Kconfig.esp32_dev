@@ -1,0 +1,6 @@
+# Copyright (c) 2023-2025 Espressif Systems (Shanghai) Co., Ltd.
+# SPDX-License-Identifier: Apache-2.0
+
+config BOARD_ESP32_DEV
+	select SOC_ESP32_D0WD_V3
+	select SOC_ESP32_PROCPU if BOARD_ESP32_DEV_ESP32_PROCPU

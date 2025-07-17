@@ -1,0 +1,6 @@
+board:
+  name: esp32_dev
+  full_name: ESP32-Dev
+  vendor: espressif
+  socs:
+  - name: esp32
