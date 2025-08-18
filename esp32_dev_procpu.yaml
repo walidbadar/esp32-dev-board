@@ -1,5 +1,5 @@
-identifier: esp32_dev
-name: ESP32-Dev
+identifier: esp32_dev/esp32/procpu
+name: ESP32-Dev PROCPU
 type: mcu
 arch: xtensa
 toolchain:

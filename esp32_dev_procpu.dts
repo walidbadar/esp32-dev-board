@@ -9,14 +9,16 @@
 #include <espressif/esp32/esp32_wroom_32ue_n4.dtsi>
 #include "esp32_dev-pinctrl.dtsi"
 #include <zephyr/dt-bindings/input/input-event-codes.h>
-#include <espressif/partitions_0x0_amp_4M.dtsi>
+#include <espressif/partitions_0x1000_amp_4M.dtsi>
 
 / {
-	model = "Espressif ESP32-Dev-Board";
+	model = "Espressif ESP32-Dev-Board PROCPU";
 	compatible = "espressif,esp32";
 
 	chosen {
 		zephyr,sram = &sram1;
+		zephyr,ipc_shm = &shm0;
+		zephyr,ipc = &mbox0;
 		zephyr,console = &uart0;
 		zephyr,shell-uart = &uart0;
 		zephyr,flash = &flash0;
@@ -24,14 +26,10 @@
 		zephyr,bt-hci = &esp32_bt_hci;
 	};
 
-	aliases {
-		uart0 = &uart0;
-		uart1 = &uart1;
-		uart2 = &uart2;
-		i2c0 = &i2c0;
-		sw0 = &button0;
-		sw1 = &button1;
-		watchdog0 = &wdt0;
+	mbox-consumer {
+		compatible = "vnd,mbox-consumer";
+		mboxes = <&mbox0 1>, <&mbox0 0>;
+		mbox-names = "tx", "rx";
 	};
 
 	buttons {
@@ -44,6 +42,16 @@
 			gpios = <&gpio0 25 (GPIO_PULL_UP | GPIO_ACTIVE_HIGH)>;
 			label = "User Button 1";
 		};
+	};
+
+	aliases {
+		uart0 = &uart0;
+		uart1 = &uart1;
+		uart2 = &uart2;
+		i2c0 = &i2c0;
+		sw0 = &button0;
+		sw1 = &button1;
+		watchdog0 = &wdt0;
 	};
 };
 
@@ -91,20 +99,8 @@
 	pinctrl-names = "default";
 };
 
-&timer0 {
-	status = "disabled";
-};
-
-&timer1 {
-	status = "disabled";
-};
-
-&timer2 {
-	status = "disabled";
-};
-
-&timer3 {
-	status = "disabled";
+&mbox0 {
+	status = "okay";
 };
 
 &trng0 {

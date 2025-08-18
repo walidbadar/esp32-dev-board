@@ -56,8 +56,11 @@ zephyr-workspace/
         └── esp32_dev/
             ├── board.cmake
             ├── board.yml
-            ├── esp32_dev_procpu.dts
             ├── esp32_dev-pinctrl.dtsi
+            ├── esp32_dev_appcpu.dts
+            ├── esp32_dev_appcpu.yaml
+            ├── esp32_dev_appcpu_defconfig
+            ├── esp32_dev_procpu.dts
             ├── esp32_dev_procpu.yaml
             ├── esp32_dev_procpu_defconfig
             ├── Kconfig
