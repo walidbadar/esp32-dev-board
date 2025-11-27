@@ -6,10 +6,10 @@
  */
 /dts-v1/;
 
-#include <espressif/esp32/esp32_wroom_32ue_n4.dtsi>
-#include "esp32_dev-pinctrl.dtsi"
 #include <zephyr/dt-bindings/input/input-event-codes.h>
+#include <espressif/esp32/esp32_wroom_32ue_n4.dtsi>
 #include <espressif/partitions_0x1000_amp_4M.dtsi>
+#include "esp32_dev-pinctrl.dtsi"
 
 / {
 	model = "Espressif ESP32-Dev-Board PROCPU";
@@ -24,6 +24,7 @@
 		zephyr,flash = &flash0;
 		zephyr,code-partition = &slot0_partition;
 		zephyr,bt-hci = &esp32_bt_hci;
+		zephyr,display = &ssd1306_128x64;
 	};
 
 	leds {
@@ -37,18 +38,21 @@
 
 	buttons {
 		compatible = "gpio-keys";
+
 		button0: button_0 {
 			gpios = <&gpio0 0 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
 			label = "BOOT Button";
 			zephyr,code = <INPUT_KEY_0>;
 		};
-		button2: button_2 {
-			gpios = <&gpio1 1 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
+
+		button1: button_1 {
+			gpios = <&gpio0 25 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
 			label = "User Button 1";
 			zephyr,code = <INPUT_KEY_1>;
 		};
-		button3: button_3 {
-			gpios = <&gpio0 25 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
+
+		button2: button_2 {
+			gpios = <&gpio1 1 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
 			label = "User Button 2";
 			zephyr,code = <INPUT_KEY_2>;
 		};
@@ -59,7 +63,7 @@
 		mboxes = <&mbox0 1>, <&mbox0 0>;
 		mbox-names = "tx", "rx";
 	};
-	
+
 	wlan1: wlan1 {
 		compatible = "espressif,esp32-wifi";
 		status = "okay";
@@ -96,7 +100,6 @@
 	pinctrl-names = "default";
 
 	modbus0 {
-		status = "okay";
 		compatible = "zephyr,modbus-serial";
 		de-gpios = <&gpio0 5 GPIO_ACTIVE_HIGH>;
 	};
@@ -117,6 +120,20 @@
 	scl-gpios = <&gpio0 22 GPIO_OPEN_DRAIN>;
 	pinctrl-0 = <&i2c0_default>;
 	pinctrl-names = "default";
+
+	ssd1306_128x64: ssd1306@3c {
+		compatible = "solomon,ssd1306fb";
+		reg = <0x3c>;
+		width = <128>;
+		height = <64>;
+		segment-offset = <0>;
+		page-offset = <0>;
+		display-offset = <0>;
+		multiplex-ratio = <63>;
+		segment-remap;
+		com-invdir;
+		prechargep = <0x22>;
+	};
 };
 
 &mbox0 {
