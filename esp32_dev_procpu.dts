@@ -27,14 +27,14 @@
 		zephyr,flash = &flash0;
 		zephyr,code-partition = &slot0_partition;
 		zephyr,bt-hci = &esp32_bt_hci;
-		zephyr,display = &ssd1306_128x64;
+		zephyr,display = &oled;
 	};
 
 	leds {
 		compatible = "gpio-leds";
 
 		led0: led_0 {
-			gpios = <&gpio0 9 GPIO_ACTIVE_HIGH>;
+			gpios = <&gpio0 15 GPIO_ACTIVE_HIGH>;
 			label = "User LED";
 		};
 	};
@@ -63,8 +63,8 @@
 	lvgl_keypad_input {
 		compatible = "zephyr,lvgl-keypad-input";
 		input = <&keys>;
-		input-codes = <INPUT_KEY_UP INPUT_KEY_DOWN INPUT_KEY_ENTER>;
-		lvgl-codes = <LV_KEY_UP LV_KEY_DOWN LV_KEY_ENTER>;
+		input-codes = <INPUT_KEY_UP INPUT_KEY_DOWN INPUT_KEY_ENTER INPUT_KEY_BACKSPACE>;
+		lvgl-codes = <LV_KEY_UP LV_KEY_DOWN LV_KEY_ENTER LV_KEY_BACKSPACE>;
 	};
 
 	mbox-consumer {
@@ -125,12 +125,12 @@
 &i2c0 {
 	status = "okay";
 	clock-frequency = <I2C_BITRATE_STANDARD>;
-	sda-gpios = <&gpio0 21 GPIO_OPEN_DRAIN>;
-	scl-gpios = <&gpio0 22 GPIO_OPEN_DRAIN>;
+	sda-gpios = <&gpio0 21 (GPIO_PULL_UP | GPIO_OPEN_DRAIN)>;
+	scl-gpios = <&gpio0 22 (GPIO_PULL_UP | GPIO_OPEN_DRAIN)>;
 	pinctrl-0 = <&i2c0_default>;
 	pinctrl-names = "default";
 
-	ssd1306_128x64: ssd1306@3c {
+	oled: ssd1306@3c {
 		compatible = "solomon,ssd1306fb";
 		reg = <0x3c>;
 		width = <128>;
@@ -141,6 +141,7 @@
 		multiplex-ratio = <63>;
 		segment-remap;
 		com-invdir;
+		inversion-on;
 		prechargep = <0x22>;
 	};
 };
